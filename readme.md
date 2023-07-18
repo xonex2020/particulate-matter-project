@@ -18,7 +18,15 @@
 
 ## InfluxDB
 
+
 ## install Docker
+
+Code Blocks (Preformatted text):
+
+    | First Header  | Second Header |
+    | ------------- | ------------- |
+    | Content Cell  | Content Cell  |
+    | Content Cell  | Content Cell  |
 
 ## simplest structure
   ### Content for the simplest structure
