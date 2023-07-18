@@ -23,10 +23,15 @@
 
 Code Blocks (Preformatted text):
 
-    | First Header  | Second Header |
-    | ------------- | ------------- |
-    | Content Cell  | Content Cell  |
-    | Content Cell  | Content Cell  |
+    docker run -d --restart -p 8086:8086 \
+      -v $PWD/data:/var/lib/influxdb2 \
+      -v $PWD/config:/etc/influxdb2 \
+      -e DOCKER_INFLUXDB_INIT_MODE=setup \
+      -e DOCKER_INFLUXDB_INIT_USERNAME=myuser \
+      -e DOCKER_INFLUXDB_INIT_PASSWORD=mypw123. \
+      -e DOCKER_INFLUXDB_INIT_ORG=my_org\
+      -e DOCKER_INFLUXDB_INIT_BUCKET=my_bucket \
+      influxdb:2.0
 
 ## simplest structure
   ### Content for the simplest structure
