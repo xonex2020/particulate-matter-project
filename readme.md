@@ -16,6 +16,42 @@
 
 **Table of Contents**
 
+
+<!--
+Install requirements
+-->
+
+## install Docker:
+
+
+
+
+
+    curl -sSL https://get.docker.com/ | CHANNEL=stable sh
+
+
+
+Nachdem der Installationsprozess abgeschlossen ist, müssen Sie eventuell den Dienst aktivieren und sicherstellen, dass er gestartet ist (z. B. CentOS 7)
+
+    systemctl enable --now docker
+
+
+
+## install docker compose:
+
+
+(Standalone - version)
+
+    LATEST=$(curl -Ls -w %{url_effective} -o /dev/null https://github.com/docker/compose/releases/latest) && LATEST=${LATEST##*/} && curl -L https://github.com/docker/compose/releases/download/$LATEST/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+
+
+
+<!--
+Install InfluxDB  docker run
+-->
+
+
 ## InfluxDB
 
 Run InfluxDB via docker run: (edit you data pw,username..)
@@ -31,16 +67,10 @@ Run InfluxDB via docker run: (edit you data pw,username..)
       influxdb:2.0
 
 
-## install Docker
-
-[Install docker on Raspberry Pi](https://docs.docker.com/engine/install/raspbian/) for other unix plattforms check the install docs.
-
 
 
 ## simplest structure
   ### Content for the simplest structure
-  - Docker
-  - InfluxDB
   - Script for the sensor
   - Automatic continuous measurement
 
