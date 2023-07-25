@@ -21,6 +21,23 @@
 Install requirements
 -->
 
+## install requirements:
+
+- Python3
+- Python - pip
+- curl, git
+- requirements via requirements.txt
+
+install requirements:
+
+    sudo apt update && sudo apt upgrade -y
+
+    sudo apt install python3 python3-pip curl git -y
+
+    
+
+
+
 ## install Docker:
 
 
@@ -74,4 +91,16 @@ Run InfluxDB via docker run: (edit you data pw,username..)
   - Script for the sensor
   - Automatic continuous measurement
 
-[For Docker install click here](https://docs.docker.com/engine/install/raspbian/ "link title")
+
+
+Python script
+
+    python script
+
+
+cronjob
+
+    python script
+
+
+Um die Zeit anzupassen empfiehlt es sich einen calculator zu verwenden der die arbeit erleichtert. [Crontab Guru :)](https://crontab.guru/ "link title")
