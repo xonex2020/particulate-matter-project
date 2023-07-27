@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    networks:
+      - default
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - /opt/docker/fine-dust-measurement/influxdb2/config:/etc/influxdb2
+      - /opt/docker/fine-dust-measurement/influxdb2/db:/var/lib/influxdb2
+  grafana:
+      image: grafana/grafana
+      container_name: grafana-server
+      restart: always
+      depends_on:
+        - influxdb
+      environment:
+        - GF_SECURITY_ADMIN_USER=admin
+        - GF_SECURITY_ADMIN_PASSWORD=admin
+        - GF_INSTALL_PLUGINS=
+      links:
+        - influxdb
+      ports:
+        - '3000:3000'
+      volumes:
+        - /opt/docker/fine-dust-measurement/grafana/data:/var/lib/grafana
