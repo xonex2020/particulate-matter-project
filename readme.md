@@ -191,7 +191,7 @@ def job():
             write_api.write(bucket=bucket, org=org, record=p)
 
 # Zeitintervall default 15min
-schedule.every(15).minutes.do(job)
+# schedule.every(15).minutes.do(job)
 
 def main():
     job()
