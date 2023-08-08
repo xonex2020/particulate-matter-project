@@ -1,4 +1,0 @@
-schedule
-pyserial
-influxdb-client
-python-dotenv

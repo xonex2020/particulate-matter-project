@@ -3,20 +3,19 @@
 # Particulate matter Project
 
 ### Features
-- Support Raspberry Pi (recommended)
+- Support Raspberry Pi 64 Bit (recommended)
+- On Raspberry Pi you have to use the 64 Bit Version!
 - Possible practical implementation of the measuring station 
 - Different variations of implementation for experienced and non-experienced users
-- Easy deployment via Docker / Docker-Compose
+- Easy deployment via Docker
 - Dashboard to monitor the values
-- Obtaining relevant system information of the measuring station and platform 
-
 
 
 <!--
 Clone Project
 --> 
 
-## first download the project
+## Clone the Project from GitHub
 
 clone the project:
 
@@ -27,106 +26,99 @@ clone the project:
     cd particulate-matter-project
     
 
-update the project:
+When you wand update the project use:
 
     git pull
 <!--
 Install requirements
 --> 
 
-# install requirements:
+# Install requirements via install script or manual:
 
-- python3, python3-pip
+- python3, python3-pip + requirements
 - docker
-- docker-compose
 
-
-## easy install script
+### install script
 
 easy-install:
     
     chmod +x install-requirements.sh
     ./install-requirements.sh
 
-## manual install
+Please reboot your Device
+### manual install
 
 install requirements(download the requirements.txt for the pip depdependencies):
 
-    sudo apt install python3 python3-pip -y
-    sudo pip install -r requirements.txt
-
+    sudo apt install libffi-dev libssl-dev python3-dev python3 python3-pip -y
     
 install docker:
 
     curl -sSL https://get.docker.com/ | CHANNEL=stable sh
 
-Nachdem der Installationsprozess abgeschlossen ist, müssen Sie eventuell den Dienst aktivieren und sicherstellen, dass er gestartet ist (z. B. CentOS 7)
+    sudo usermod -aG docker ${USER}
 
     systemctl enable --now docker
 
-
-
-install docker compose (Standalone - version):
-
-    LATEST=$(curl -Ls -w %{url_effective} -o /dev/null https://github.com/docker/compose/releases/latest) && LATEST=${LATEST##*/} && curl -L https://github.com/docker/compose/releases/download/$LATEST/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
+    sudo reboot
 
 
 
 
+# Setup InfluxDB
 
-# Install InfluxDB & Grafana (Docker-Compose)
+Here you can edit the variables (PASSWORD,USERRNAME,ORG,BUCKET) note it for later you will need them in Grafana.
 
-For these commands you must be in the project folder.
-
-run & pull the container:
-    
-    docker compose up -d
-
-
-stop the container:
-
-    docker compose down
-
-
-restart the container:
-
-    docker compose restart
-
-
-for update the container(pull new image and recreate the container):
-
-    docker compose pull
-    docker compose up -d
+    docker run -d -p 8086:8086 \
+      -v $PWD/data:/var/lib/influxdb2 \
+      -v $PWD/config:/etc/influxdb2 \
+      -e DOCKER_INFLUXDB_INIT_MODE=setup \
+      -e DOCKER_INFLUXDB_INIT_USERNAME=testuser \
+      -e DOCKER_INFLUXDB_INIT_PASSWORD=testpw123. \
+      -e DOCKER_INFLUXDB_INIT_ORG=TestOrg \
+      -e DOCKER_INFLUXDB_INIT_BUCKET=test_bucket \
+      influxdb:latest
 
 
 
-### create your first bucket for your sensor measurements
+login to InfluxDB
 
-How is my ip from the device?
-
-    ip a
-
-lets login to InfluxDB
-    
     http://my-pi-ip:8086
 
 
-
-####Get Started with InfluxDB
-                
-1. Setup Initial User (Remember your organization name and your bucket name for later)
-2. Copy your API Token for later
-3. Click on Quick Start
-
-
-
-## lets make the Sensor ready:
-
-
-edit the .env and set the required data. -> 
+When you don't know your own ip use ip a.
     
+    ip a
+
+
+### Now we have to create a token:
+
+1. Login to InfluxDB
+2. Go in the left Menubar on API Tokens
+3. Click on Generate API Token -> All Access Token
+4. Set a Name for your Token like Grafana and save it
+5. Important copy your token for later! 
+
+You can find some pictures [here](https://crontab.guru/ "link title")
+
+
+
+## Now we have to setup the sensor:
+
+You can use the default sensor script in he cloned project folder or create it on your own.
+
+### edit the .env and set the required data. 
+    
+    cd sensor
     sudo nano .env
+
+here we change the url and api token
+
+    influxdb_token= your token
+    influxdb_organisation= your org
+    influxdb_bucket= your bucket
+    influxdb_url= http://my-pi-ip:8086
+    serial_port=/dev/ttyUSB0
 
 In some cases you have another serial port. You can identify the serial port with this command:
 
@@ -137,7 +129,7 @@ in my case
     /dev/ttyUSB0
 
 
-## The script for the Sensor: (not recommended -> please use the sensor.py from the git clone!)  
+### The sensor.py script for all that want create it on there own:
 
 ```python
 import time, schedule, serial, influxdb_client, os
@@ -221,10 +213,22 @@ with it you can easily set your individual time.
 
 
 ## Setup Grafana
+install Grafana via Docker
 
-Login to Grafana
+    docker run -d -p 3000:3000 --name=grafana \
+    --volume grafana-storage:/var/lib/grafana \
+    grafana/grafana
+
+Login to Grafana (on first install it can take a while until you see the login screen)
 
     http://my-pi-ip:3000
+
+Login data for the first login
+    
+    username: admin
+    password: admin
+
+now you have to set your own password.
 
 
 Placeholder Example Dashboard
