@@ -99,7 +99,7 @@ When you don't know your own ip use ip a.
 4. Set a Name for your Token like Grafana and save it
 5. Important copy your token for later! 
 
-You can find some pictures [here](https://crontab.guru/ "link title")
+#### We have step-by-step pictures on GitHub for all steps
 
 
 
@@ -230,5 +230,20 @@ Login data for the first login
 
 now you have to set your own password.
 
+### Import the Dashboard Template from the json file:
 
-Placeholder Example Dashboard
+1. In the left menu click on Dashboard
+2. On the right side select New -> Import
+3. Upload dashboard JSON file -> Load (The Template is here on GitHub)
+4. Now we have to add the DataSource right menu -> Connections -> Data sources
+5. select InfluxDB
+6. Set the Query Language to Flux
+7. disable under Auth -> Basic auth
+8. Add your InfluxDB token and the Organisation under InfluxDB Details and click on Save & test
+9. Switch to your Dashboard and click in the right conor from your graphs on edit 
+10. here you have to click one time in the query for influxDB and click on Save -> Apply
+11. This Part repeat for all your graphs in the Dashboard.
+
+    
+#### We have step-by-step pictures on GitHub for all steps
+
