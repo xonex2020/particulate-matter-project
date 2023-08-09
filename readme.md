@@ -69,7 +69,7 @@ install docker:
 
 Here you can edit the variables (PASSWORD,USERRNAME,ORG,BUCKET) note it for later you will need them in Grafana.
 
-    docker run -d -p 8086:8086 \
+    docker run --restart always -d -p 8086:8086 \
       -v $PWD/data:/var/lib/influxdb2 \
       -v $PWD/config:/etc/influxdb2 \
       -e DOCKER_INFLUXDB_INIT_MODE=setup \
@@ -215,7 +215,7 @@ with it you can easily set your individual time.
 ## Setup Grafana
 install Grafana via Docker
 
-    docker run -d -p 3000:3000 --name=grafana \
+    docker run --restart always -d -p 3000:3000 --name=grafana \
     --volume grafana-storage:/var/lib/grafana \
     grafana/grafana
 
