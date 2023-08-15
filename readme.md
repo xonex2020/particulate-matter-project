@@ -26,7 +26,7 @@ clone the project:
     cd particulate-matter-project
     
 
-When you wand update the project use:
+When you want update the project use:
 
     git pull
 <!--
